@@ -1,4 +1,4 @@
-use std::io;
+use std::{io, mem::swap};
 
 #[derive(Debug)]
 pub struct City {
@@ -112,6 +112,19 @@ impl LinkedList {
             current = &mut node.next;
         }
         None
+    }
+    pub fn sort_by_user_number(&mut self) {
+        let mut current = &mut self.head;
+        while let Some(node) = current {
+            let mut next = &mut node.next;
+            while let Some(next_node) = next {
+                if node.city.user_number > next_node.city.user_number {
+                    swap(&mut node.city, &mut next_node.city);
+                }
+                next = &mut next_node.next;
+            }
+            current = &mut node.next;
+        }
     }
 }
 

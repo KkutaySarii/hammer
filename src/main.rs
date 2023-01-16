@@ -2,10 +2,11 @@ mod linked_cities;
 use linked_cities::{City, LinkedList};
 fn main() {
     let mut linked_cities = LinkedList::new();
-    println!(
-        "1-Add City\n2-Delete City\n3-Delete Last City\n4-Print Cities\n5-Search City\n6-Update Population\n7-Update User Number\n8-Exit\n"
-    );
+
     loop {
+        println!(
+        "1-Add City\n2-Delete City\n3-Delete Last City\n4-Print Cities\n5-Search City\n6-Update Population\n7-Update User Number\n8-Sort Cities by User Number\n9-Exit\n"
+        );
         let select = linked_cities::take_input("Please select the action you want to do: ");
         let select: i32 = match select.trim().parse() {
             Ok(num) => num,
@@ -49,7 +50,11 @@ fn main() {
                     Ok(num) => num,
                     Err(_) => continue,
                 };
-                linked_cities.update_population(name, new_population);
+                let city = linked_cities.update_population(name, new_population);
+                match city {
+                    Some(c) => println!("Updated City:\n{}", c),
+                    None => println!("City not found"),
+                }
             }
             7 => {
                 let name = linked_cities::take_input("Name");
@@ -58,9 +63,17 @@ fn main() {
                     Ok(num) => num,
                     Err(_) => continue,
                 };
-                linked_cities.update_user_number(name, new_user_number);
+                let city = linked_cities.update_user_number(name, new_user_number);
+                match city {
+                    Some(c) => println!("Updated City:\n{}", c),
+                    None => println!("City not found"),
+                }
             }
             8 => {
+                linked_cities.sort_by_user_number();
+                linked_cities.display();
+            }
+            9 => {
                 println!("You left the menu");
                 break;
             }
